@@ -1,5 +1,5 @@
 # 🧑‍💻 Atrik Samanta — Personal Portfolio & AI Engineering Showcase
-**Interactive Developer Portfolio, Resume & Project Architecture Showcase**
+**Premium AI/ML developer portfolio featuring a custom dark glassmorphism theme, interactive neural network animations, and a dynamic stardust cursor.**
 
 [![HTML5 & CSS3](https://img.shields.io/badge/Frontend-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-3178C6?style=flat-square)]()
 [![Design: Responsive & Glassmorphic](https://img.shields.io/badge/Design-Responsive%20%7C%20Glassmorphism-6C5CE7?style=flat-square)]()
