@@ -268,6 +268,9 @@ const App = () => {
                         <a href="https://www.linkedin.com/in/atrik-samanta-49a0603b6" target="_blank" class="btn btn-secondary">
                             <${LinkedinIcon} /> LinkedIn
                         </a>
+                        <a href="http://localhost:8081" class="btn btn-secondary" style=${{ borderColor: 'var(--accent-1)' }}>
+                            <${ArrowRightIcon} /> Localhost Link
+                        </a>
                         <a href="mailto:samanta.atrik1710@gmail.com" class="btn btn-secondary">
                             <${MailIcon} /> Contact
                         </a>
@@ -340,6 +343,10 @@ const App = () => {
                             <div class="contact-item">
                                 <${GithubIcon} />
                                 <a href="https://github.com/ATRIK171005" target="_blank" style=${{ color: 'inherit', textDecoration: 'none' }}>github.com/ATRIK171005</a>
+                            </div>
+                            <div class="contact-item">
+                                <${ArrowRightIcon} />
+                                <a href="http://localhost:8081" style=${{ color: 'var(--accent-1)', textDecoration: 'none' }}>http://localhost:8081</a>
                             </div>
                         </div>
                     </div>
