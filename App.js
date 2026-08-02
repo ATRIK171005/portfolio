@@ -428,6 +428,37 @@ const AuroraTextEffect = ({ text }) => {
 // ---- MAIN APP ----
 const App = () => {
     const [filter, setFilter] = useState('All');
+    const [formStatus, setFormStatus] = useState('');
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setFormStatus('submitting');
+        const formData = new FormData(e.target);
+        
+        // --- ADD YOUR WEB3FORMS ACCESS KEY HERE ---
+        formData.append("access_key", "584e8354-8cb9-4ecf-8135-c1e084f7eb00");
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setFormStatus('success');
+                e.target.reset();
+                setTimeout(() => setFormStatus(''), 5000);
+            } else {
+                setFormStatus('error');
+                console.error("Web3Forms Error:", data);
+            }
+        } catch (error) {
+            setFormStatus('error');
+            console.error("Fetch Error:", error);
+        }
+    };
 
     // Scroll reveal logic
     useEffect(() => {
@@ -457,6 +488,22 @@ const App = () => {
 
     const projects = [
         {
+            title: "Enterprise AI Copilot",
+            date: "July 2026 - Present",
+            category: "AI/ML",
+            github: "https://github.com/ATRIK171005/AI-Procurement-Copilot",
+            tech: ["Python", "FastAPI", "LangChain", "OpenAI", "ChromaDB", "PostgreSQL", "Streamlit", "Docker"],
+            desc: "Developed an enterprise-grade AI Copilot enabling natural language interaction with organizational knowledge using RAG. Built a document intelligence pipeline processing PDFs and storing vector embeddings in ChromaDB."
+        },
+        {
+            title: "HoloSecEdge: Secure Edge Framework",
+            date: "July 2026 - Present",
+            category: "AI/ML",
+            github: "https://github.com/ATRIK171005",
+            tech: ["Python", "Machine Learning", "ECC", "Random Forest", "Edge Computing"],
+            desc: "Developed a lightweight edge-cloud security framework for holographic IoT devices. Implemented Security-enriched Elliptic Curve Cryptography (SECC) and an ASS-RRF model to detect cyberattacks in real time."
+        },
+        {
             title: "Vehicle Routing Problem with Time Windows (VRPTW)",
             date: "July 2026 - August 2026",
             category: "Optimization",
@@ -473,28 +520,12 @@ const App = () => {
             desc: "Developed a supply chain optimization system using Linear Programming to automate transportation allocation. Integrated ML-based demand forecasting models (Random Forest/XGBoost) to enhance predictive planning accuracy."
         },
         {
-            title: "Intrusion Detection System for IoT Networks",
-            date: "July 2026 - Present",
-            category: "AI/ML",
-            github: "https://github.com/ATRIK171005",
-            tech: ["PyTorch", "Scikit-learn", "High-Dimensional Data", "Cybersecurity"],
-            desc: "Developing an AI-driven threat classification pipeline leveraging PyTorch to automate real-time cyber threat detection and anomaly mitigation across IoT network traffic."
-        },
-        {
             title: "StructuralEye: Crack Detection System",
             date: "March 2026 - April 2026",
             category: "Computer Vision",
             github: "https://github.com/ATRIK171005",
             tech: ["Computer Vision", "OpenCV", "CLAHE", "Morphological Operations"],
-            desc: "Automated manual structural inspection workflows using computer vision. Extracted physical dimensions to compute dynamic risk scores and establish baseline severity KPIs for defect monitoring."
-        },
-        {
-            title: "AI-Based Fake News Detection System",
-            date: "December 2025 - January 2026",
-            category: "AI/ML",
-            github: "https://github.com/ATRIK171005/AI_Fake_News_Detector",
-            tech: ["NLP", "TF-IDF", "Logistic Regression", "Naive Bayes"],
-            desc: "Built an NLP classification pipeline to classify content and automate information verification workflows. Evaluated against precision, recall, and F1-score metrics to ensure reliable prediction accuracy."
+            desc: "Automated manual structural inspection workflows using computer vision algorithms including Canny edge detection. Extracted physical dimensions to compute dynamic risk scores and establish baseline severity KPIs for defect monitoring."
         }
     ];
 
@@ -520,8 +551,8 @@ const App = () => {
         { category: "Languages", tags: ["Python", "R Language", "SQL", "Java", "C/C++", "JavaScript", "HTML/CSS"] },
         { category: "Optimization & ML", tags: ["Google OR-Tools", "PyTorch", "TensorFlow", "Scikit-learn"] },
         { category: "AI Tools & Agents", tags: ["Claude Code", "MCP", "GitHub Copilot", "Cursor", "LLMs (Llama, Qwen)"] },
-        { category: "Frameworks & Web", tags: ["FastAPI", "React", "Next.js", "Node.js", "Streamlit", "Vite"] },
-        { category: "Cloud, DevOps & DB", tags: ["AWS (EC2)", "Docker", "Git", "Linux", "Nginx", "PostgreSQL", "SQLite", "Supabase"] },
+        { category: "Frameworks & Web", tags: ["FastAPI", "React", "Next.js", "Node.js", "Streamlit", "Vite", "LangChain"] },
+        { category: "Cloud, DevOps & DB", tags: ["AWS (EC2)", "Docker", "Git", "Linux", "Nginx", "PostgreSQL", "SQLite", "Supabase", "ChromaDB"] },
         { category: "Data & Analytics", tags: ["NumPy", "pandas", "OpenCV", "Matplotlib", "Data Quality Assessment", "Lineage Tracking"] }
     ];
 
@@ -659,7 +690,7 @@ const App = () => {
                     </div>
                     
                     <div class="glass-panel reveal delay-200">
-                        <form action="https://formspree.io/f/xbjnrvok" method="POST">
+                        <form onSubmit=${handleFormSubmit}>
                             <div class="form-group">
                                 <label class="form-label">Name</label>
                                 <input type="text" name="name" class="form-input" placeholder="John Doe" required />
@@ -672,7 +703,11 @@ const App = () => {
                                 <label class="form-label">Message</label>
                                 <textarea name="message" class="form-textarea" placeholder="Hello Atrik..." required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary" style=${{ width: '100%', marginTop: '0.5rem' }}>Send Message</button>
+                            <button type="submit" class="btn btn-primary" disabled=${formStatus === 'submitting'} style=${{ width: '100%', marginTop: '0.5rem', opacity: formStatus === 'submitting' ? 0.7 : 1 }}>
+                                ${formStatus === 'submitting' ? 'Sending...' : 'Send Message'}
+                            </button>
+                            ${formStatus === 'success' && html`<p style=${{ color: '#10b981', marginTop: '1rem', textAlign: 'center', fontWeight: '500' }}>Message sent successfully!</p>`}
+                            ${formStatus === 'error' && html`<p style=${{ color: '#ef4444', marginTop: '1rem', textAlign: 'center', fontWeight: '500' }}>Failed to send message. Please try again.</p>`}
                         </form>
                     </div>
                 </div>
