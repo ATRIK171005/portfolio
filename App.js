@@ -437,6 +437,10 @@ const App = () => {
         
         // --- ADD YOUR WEB3FORMS ACCESS KEY HERE ---
         formData.append("access_key", "584e8354-8cb9-4ecf-8135-c1e084f7eb00");
+        
+        // Add custom subject and sender name to prevent spam flagging
+        formData.append("subject", "New Contact Message from your Portfolio!");
+        formData.append("from_name", "Portfolio Notification");
 
         try {
             const response = await fetch("https://api.web3forms.com/submit", {
